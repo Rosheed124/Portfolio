@@ -98,6 +98,7 @@ export const config = {
         email: "rosheediyiola2004@gmail.com",
         github: "https://github.com/rosheed124",
         linkedin: "https://www.linkedin.com/in/rosheed123",
+        twitter: "https://x.com/rosheed124",
         instagram: "https://www.instagram.com/@inspirationalislstories",
         youtube: "https://youtube.com/@islamichistory673",
         tiktok: "https://www.tiktok.com/@inspirationalislstories",
