@@ -22,8 +22,8 @@ const Navbar = () => {
       infinite: false,
     });
 
-    // Start paused
-    lenis.stop();
+    // Start Lenis so native-like smooth scrolling works immediately
+    lenis.start();
 
     // Handle smooth scroll animation frame
     function raf(time: number) {
