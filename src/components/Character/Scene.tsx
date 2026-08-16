@@ -20,6 +20,7 @@ const Scene = () => {
   const { setLoading, setIsLoading } = useLoading();
 
   const [character, setChar] = useState<THREE.Object3D | null>(null);
+  const [webglAvailable, setWebglAvailable] = useState<boolean>(true);
   useEffect(() => {
     if (canvasDiv.current) {
       let rect = canvasDiv.current.getBoundingClientRect();
@@ -27,10 +28,28 @@ const Scene = () => {
       const aspect = container.width / container.height;
       const scene = sceneRef.current;
 
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true,
-      });
+      // Runtime check for WebGL availability without importing three/examples (avoids dev-server compile issues)
+      const testCanvas = document.createElement('canvas');
+      const hasWebGL = !!(testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl'));
+      if (!hasWebGL) {
+        console.error('WebGL is not available in this environment.');
+        setWebglAvailable(false);
+        setIsLoading(false);
+        return;
+      }
+
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+      } catch (err) {
+        console.error('Error creating WebGL renderer:', err);
+        setWebglAvailable(false);
+        setIsLoading(false);
+        return;
+      }
       renderer.setSize(container.width, container.height);
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -149,6 +168,16 @@ const Scene = () => {
       };
     }
   }, []);
+
+  if (!webglAvailable) {
+    return (
+      <div className="character-container">
+        <div className="character-model" style={{display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',padding:20}}>
+          <div>WebGL is not available in your browser or has been disabled. Please enable hardware acceleration or try another browser.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

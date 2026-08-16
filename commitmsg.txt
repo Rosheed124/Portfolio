@@ -1,3 +1,7 @@
-Clean initial commit without LFS file
+﻿Fix: Add Suspense fallbacks, enable scrolling, start Lenis immediately
+
+- Add fallback props to Suspense in src/App.tsx so main UI renders while CharacterModel loads.
+- Change body overflow to auto in src/index.css to allow scrolling.
+- Start Lenis on init in src/components/Navbar.tsx so two-finger touchpad scrolling works immediately.
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
